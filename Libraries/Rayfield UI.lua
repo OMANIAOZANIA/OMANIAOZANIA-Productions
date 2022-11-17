@@ -1151,7 +1151,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 	-- Tab
 	local FirstTab = false
 	local Window = {}
-	function Window:CreateTab(Name,ImagePath)
+	function Window:CreateTab(Name,ImageAsset)
 		local SDone = false
 		local TabButton = TabList.Template:Clone()
 		TabButton.Name = Name
@@ -1160,13 +1160,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 		TabButton.Title.TextWrapped = false
 		TabButton.Size = UDim2.new(0, TabButton.Title.TextBounds.X + 30, 0, 30)
 		
-		if ImagePath and getsynasset then
+		if ImageAsset then
 			TabButton.Title.AnchorPoint = Vector2.new(0, 0.5)
 			TabButton.Title.Position = UDim2.new(0, 37, 0.5, 0)
-
-			--TabButton.Image.Image = "rbxassetid://"..Image
-			TabButton.Image.Image = getsynasset(ImagePath)
-
+			TabButton.Image.Image = ImageAsset
 			TabButton.Image.Visible = true
 			TabButton.Title.TextXAlignment = Enum.TextXAlignment.Left
 			TabButton.Size = UDim2.new(0, TabButton.Title.TextBounds.X + 46, 0, 30)
