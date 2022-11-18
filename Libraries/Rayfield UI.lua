@@ -9,6 +9,7 @@ iRay  | Programming
 OMANIAOZANIA | more features
 + dropdown refresh
 + getguiOBJ
++ bug fixes & others <3
 
 ]]
 
