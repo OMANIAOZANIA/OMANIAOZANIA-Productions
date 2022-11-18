@@ -16,7 +16,9 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
         assetPath = "OMANIAOZANIA-Productions/" .. assetPath end
 
     spawn(function()
-        if (not cacheAsset) then return getasset(URLasset) end
+        if (not cacheAsset) then
+            return getasset("https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/" .. assetPath:gsub("OMANIA_Productions/", ""))
+        end
 
         if (not FUNCTION_isFile(assetPath)) then
             spawn(function()
