@@ -39,8 +39,7 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
             local assetSavePath = assetPath:gsub("%%20", " ")
             writefile(assetSavePath, requestAsset.Body)
 
-            print('success', assetPath, assetSavePath)
-            print(GITHUB_REPOSITORY  .. assetPath:gsub("OMANIA_Productions/", ""))
+            return requestAsset.Body
         end
     end)
 end
