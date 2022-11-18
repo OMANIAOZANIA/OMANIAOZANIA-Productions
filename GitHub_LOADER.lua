@@ -16,7 +16,7 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
         assetPath = "OMANIAOZANIA-Productions/" .. assetPath end
 
     spawn(function()
-        if (not cacheAsset) then
+        --if (not cacheAsset) then
             return getasset(GITHUB_REPOSITORY .. assetPath:gsub("OMANIA_Productions/", ""))
         end
 
