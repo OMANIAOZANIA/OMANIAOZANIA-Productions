@@ -12,11 +12,8 @@ end
 function GITHUB:GetCustomAsset(assetPath, cacheAsset)
 -- assetPath: github repo (https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/...)
 -- assetPath: workspace ($ExploitFolder$/workspace/...)
-    if (not assetPath:match("OMANIAOZANIA-Productions")) then
-        assetPath = "OMANIAOZANIA-Productions/" .. assetPath end
-
     spawn(function()
-        --if (not cacheAsset) then
+        if (not cacheAsset) then
             return getasset(GITHUB_REPOSITORY .. assetPath:gsub("OMANIA_Productions/", ""))
         end
 
@@ -39,8 +36,11 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
                 Url = GITHUB_REPOSITORY  .. assetPath:gsub("OMANIA_Productions/", ""),
                 Method = "GET"
             })
-            local assetSavePath = assetPath:gsub("%20", " ")
+            local assetSavePath = assetPath:gsub("%%20", " ")
             writefile(assetSavePath, requestAsset.Body)
+
+            print('success', assetPath, assetSavePath)
+            print(GITHUB_REPOSITORY  .. assetPath:gsub("OMANIA_Productions/", ""))
         end
     end)
 end
