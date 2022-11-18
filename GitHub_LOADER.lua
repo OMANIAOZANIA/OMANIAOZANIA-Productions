@@ -17,6 +17,7 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
             return getasset(GITHUB_REPOSITORY .. assetPath:gsub("OMANIA_Productions/", ""))
         end
 
+        local assetSavePath
         if (not FUNCTION_isFile(assetPath)) then
             spawn(function()
 				local loadText = Instance.new("TextLabel")
@@ -36,11 +37,10 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
                 Url = GITHUB_REPOSITORY  .. assetPath:gsub("OMANIA_Productions/", ""),
                 Method = "GET"
             })
-            local assetSavePath = assetPath:gsub("%%20", " ")
+            assetSavePath = assetPath:gsub("%%20", " ")
             writefile(assetSavePath, requestAsset.Body)
-
-            return requestAsset.Body
         end
+        return assetSavePath
     end)
 end
 
