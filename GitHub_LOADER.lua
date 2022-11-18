@@ -40,8 +40,9 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
             assetSavePath = assetPath:gsub("%%20", " ")
             writefile(assetSavePath, requestAsset.Body)
         end
-	    print(assetSavePath)
+	print(assetSavePath)
         local assetCache = getasset(assetSavePath)
+			print(assetCache)
         return assetCache
     end)
 end
