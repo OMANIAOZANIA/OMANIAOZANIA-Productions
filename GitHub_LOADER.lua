@@ -41,7 +41,7 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
             writefile(assetSavePath, requestAsset.Body)
         end
 	print(assetSavePath)
-        return assetSavePath
+        return getasset(assetSavePath)
     end)
 end
 
