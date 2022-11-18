@@ -57,5 +57,5 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
         return getasset(assetPath:gsub("%%20", " ")) end
     return getasset(assetSavePath)
 end
-GITHUB:GetCustomAsset("OMANIA_Productions/BedWars%20WEED/assets/BedTP.png", true)
+
 return GITHUB
