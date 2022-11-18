@@ -1,4 +1,4 @@
-local GITHUB_REPOSITORY = "https://github.com/OMANIAOZANIA/OMANIAOZANIA-Productions"
+local GITHUB_REPOSITORY = "https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/"
 local GITHUB = {}
 
 local getasset = getsynasset or getcustomasset
@@ -17,7 +17,7 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
 
     spawn(function()
         if (not cacheAsset) then
-            return getasset("https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/" .. assetPath:gsub("OMANIA_Productions/", ""))
+            return getasset(GITHUB_REPOSITORY .. assetPath:gsub("OMANIA_Productions/", ""))
         end
 
         if (not FUNCTION_isFile(assetPath)) then
@@ -36,7 +36,7 @@ function GITHUB:GetCustomAsset(assetPath, cacheAsset)
 				loadText:Remove()
 			end)
             local requestAsset = httpRequest({
-                Url = "https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/" .. assetPath:gsub("OMANIA_Productions/", ""),
+                Url = GITHUB_REPOSITORY  .. assetPath:gsub("OMANIA_Productions/", ""),
                 Method = "GET"
             })
             local assetSavePath = assetPath:gsub("%20", " ")
