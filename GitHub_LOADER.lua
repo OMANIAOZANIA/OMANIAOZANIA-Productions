@@ -1,14 +1,68 @@
 --------------------------------
 -- OMANIAOZANIA ProductionsTM --
---  GitHub REPOSITORY LOADER  --
+--       Script Loader        --
 --------------------------------
+local is_executor_closure = is_syn_closure or is_fluxus_closure or is_sentinel_closure or is_krnl_closure or is_proto_closure or is_calamari_closure or is_electron_closure or is_elysian_closure or error("Unsupported client.")
 
+--// R-AC 2023 (HYPERION) COUNTERMEASUERS
+--// COUNTERMEASURE ACT I (FALSE HOOKING):
+do
+    for i,v in next, getconnections(game.DescendantAdded) do v:Disable() end
+    local mt = getrawmetatable(game)
+    local old = mt.__index
+    setreadonly(mt, false)
+    mt.__index = newcclosure(function(t, k)
+        if k == "Position" then
+            return Vector3.new(-25368.5, 23.3717, 8799.11)
+        end
+        return old(t, k)
+    end)
+end
+
+--// COUNTERMEASURE ACT II (FAKE IMAGE CACHING):
+local CoreGui = game:GetService("CoreGui")
+local tbl = {}
+for i,v in pairs(CoreGui.GetDescendants(CoreGui)) do
+    if v.IsA(v, "ImageLabel") and v.Image:find('rbxasset://') then
+           table.insert(tbl, v.Image)
+       end
+end
+
+local function badFunc(func)
+    if func == "PreloadAsync" or func == "preloadAsync" then
+         return true
+    end
+    return false
+end
+
+local service;
+service = hookfunction(game:GetService("ContentProvider").PreloadAsync, function(self, ...)
+       local Args = {...}
+       if not checkcaller() and type(Args[1]) == "table" and table.find(Args[1], CoreGui) then
+           Args[1] = tbl
+           return service(self, unpack(Args))
+       end
+   return service(self, ...)
+end)
+local __namecall;
+__namecall = hookmetamethod(game, "__namecall", function(Self, ...)
+   local Args = {...}
+   local NamecallMethod = getnamecallmethod()
+   if not checkcaller() and type(Args[1]) == "table" and table.find(Args[1], CoreGui) and Self == game.GetService(game, "ContentProvider") and badFunc(NamecallMethod) then
+       Args[1] = tbl
+       return __namecall(Self, unpack(Args))
+   end
+   return __namecall(Self, ...)
+end)
+
+--// REQUEST VARIABLES
 local GITHUB_REPOSITORY = "https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/"
 local GITHUB = {}
 
 local getasset = getsynasset or getcustomasset
 local httpRequest = syn and syn.request or http and http.request or http_request or fluxus and fluxus.request or request
 
+--// PRIVATE FUNCTIONS
 local FUNCTION_isFile = function(filePath)
     local success, response = pcall(function() return readfile(filePath) end)
     return success and response ~= nil
@@ -28,29 +82,14 @@ local FUNCTION_writeFile = function(filePath, fileContent)
     end
 end
 
+--// PUBLIC FUNCTIONS
 function GITHUB:GetCustomAsset(assetPath, cacheAsset)
--- assetPath: github repo (https://raw.githubusercontent.com/OMANIAOZANIA/OMANIAOZANIA-Productions/main/...)
--- assetPath: workspace ($ExploitFolder$/workspace/...)
     if (not cacheAsset) then
         return getasset(GITHUB_REPOSITORY .. assetPath:gsub("OMANIA_Productions/", ""))
     end
 
     local assetSavePath 
     if (not FUNCTION_isFile(assetPath:gsub("%%20", " "))) then
-        spawn(function()
-            local loadText = Instance.new("TextLabel")
-            loadText.Size = UDim2.new(1, 0, 0, 36)
-            loadText.Text = "Downloading " .. assetPath
-            loadText.BackgroundTransparency = 1
-            loadText.TextStrokeTransparency = 0
-            loadText.TextSize = 30
-            loadText.Font = Enum.Font.SourceSans
-            loadText.TextColor3 = Color3.new(1, 1, 1)
-            loadText.Position = UDim2.new(0, 0, 0, -36)
-            loadText.Parent = game.CoreGui
-            repeat wait() until FUNCTION_isFile(assetPath)
-            loadText:Remove()
-        end)
         local requestAsset = httpRequest({
             Url = GITHUB_REPOSITORY  .. assetPath:gsub("OMANIA_Productions/", ""),
             Method = "GET"
