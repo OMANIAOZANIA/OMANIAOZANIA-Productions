@@ -4,6 +4,11 @@
 --------------------------------
 local is_executor_closure = is_syn_closure or is_fluxus_closure or is_sentinel_closure or is_krnl_closure or is_proto_closure or is_calamari_closure or is_electron_closure or is_elysian_closure or error("Unsupported client.")
 
+--// VARIABLES (PUBLIC AND PRIVATE)
+local player_character = game:GetService("Players")["LocalPlayer"].Character or game:GetService("Players")["LocalPlayer"].CharacterAdded:Wait()
+
+getgenv().OMANIA_scriptLoader_hookPositionTo = player_character:WaitForChild("HumanoidRootPart").Position
+
 --// R-AC 2023 (HYPERION) COUNTERMEASUERS
 --// COUNTERMEASURE ACT I (FALSE HOOKING):
 do
@@ -13,7 +18,8 @@ do
     setreadonly(mt, false)
     mt.__index = newcclosure(function(t, k)
         if k == "Position" then
-            return Vector3.new(-25368.5, 23.3717, 8799.11)
+            return getgenv().OMANIA_scriptLoader_hookPositionTo
+                or player_character:WaitForChild("HumanoidRootPart").Position
         end
         return old(t, k)
     end)
